@@ -17,17 +17,6 @@ Defaults:
 
 The result is `esphome-armv7:2026.6.5`.
 
-## Publish to GHCR
-
-Authenticate first with a GitHub classic PAT that has `write:packages`, then:
-
-```sh
-docker login ghcr.io -u imkebe
-./push.sh
-```
-
-This publishes both `ghcr.io/imkebe/esphome-armv7:2026.6.5` and `:latest`.
-
 ## Run
 
 ```sh
