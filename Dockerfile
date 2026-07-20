@@ -41,6 +41,14 @@ RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r /tmp/requirements.txt \
     && pip install --no-cache-dir esphome-device-builder==1.1.0
 
+# PioArduino creates this isolated environment for ESP-IDF tooling. Seed its
+# bootstrap packages here: it must not rely on the global ESPHome environment.
+RUN mkdir -p /root/.platformio \
+    && python -m venv /root/.platformio/penv \
+    && /root/.platformio/penv/bin/python -m pip install --no-cache-dir --upgrade \
+        pip uv certifi packaging \
+    && rm -rf /root/.cache
+
 COPY . /esphome
 RUN pip install --no-cache-dir /esphome \
     && platformio settings set enable_telemetry No \
