@@ -41,12 +41,30 @@ RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r /tmp/requirements.txt \
     && pip install --no-cache-dir esphome-device-builder==1.1.0
 
-# PioArduino creates this isolated environment for ESP-IDF tooling. Seed its
-# bootstrap packages here: it must not rely on the global ESPHome environment.
+# PioArduino creates this isolated environment for ESP-IDF tooling. Install its
+# complete dependency set while the ARMv7 build headers are still present.
+# Otherwise it tries to compile cffi during the first firmware build, after this
+# image has already removed libffi-dev to stay lean.
 RUN mkdir -p /root/.platformio \
     && python -m venv /root/.platformio/penv \
     && /root/.platformio/penv/bin/python -m pip install --no-cache-dir --upgrade \
-        pip uv certifi packaging \
+        pip uv \
+        "pioarduino>=6.1.19" \
+        "littlefs-python>=0.16.0" \
+        "fatfs-ng>=0.1.14" \
+        "pyyaml>=6.0.2" \
+        "rich-click>=1.8.6" \
+        "zopfli>=0.2.2" \
+        "intelhex>=2.3.0" \
+        "rich>=14.0.0" \
+        "cryptography>=45.0.3" \
+        "certifi>=2025.8.3" \
+        "ecdsa>=0.19.1" \
+        "bitstring>=4.3.1" \
+        "reedsolo>=1.5.3,<1.8" \
+        "esp-idf-size>=2.0.0" \
+        "esp-coredump>=1.14.0" \
+        "pyelftools>=0.32" \
     && rm -rf /root/.cache
 
 COPY . /esphome
