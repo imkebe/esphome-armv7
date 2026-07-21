@@ -39,7 +39,12 @@ RUN apt-get update \
     && rm -f /tmp/libssl1.1.deb \
     && rm -rf /var/lib/apt/lists/*
 
+# ESP-IDF publishes ARMv7-only binary wheels (including tree-sitter-c) here.
+# ESPHome's native ESP-IDF installer inherits pip's environment but does not add
+# this index itself; without it a clean ARMv7 compile cannot satisfy its
+# binary-only tree-sitter-c requirement.
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_EXTRA_INDEX_URL=https://dl.espressif.com/pypi \
     PLATFORMIO_SETTING_ENABLE_TELEMETRY=No \
     PLATFORMIO_SETTING_CHECK_PLATFORMIO_INTERVAL=1000000
 
