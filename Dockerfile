@@ -11,6 +11,7 @@ RUN apt-get update \
         cmake \
         curl \
         git \
+        ninja-build \
         libusb-1.0-0 \
         libssl3 \
         libffi8 \
@@ -50,7 +51,8 @@ RUN pip install --no-cache-dir --upgrade pip \
 # PioArduino creates this isolated environment for ESP-IDF tooling. Install its
 # complete dependency set while the ARMv7 build headers are still present.
 # Otherwise it tries to compile cffi during the first firmware build, after this
-# image has already removed libffi-dev to stay lean.
+# image has already removed libffi-dev to stay lean. PioArduino also addresses
+# Ninja through its package path even though Debian's ninja-build provides it.
 RUN mkdir -p /root/.platformio \
     && python -m venv /root/.platformio/penv \
     && /root/.platformio/penv/bin/python -m pip install --no-cache-dir --upgrade \
@@ -71,6 +73,8 @@ RUN mkdir -p /root/.platformio \
         "esp-idf-size>=2.0.0" \
         "esp-coredump>=1.14.0" \
         "pyelftools>=0.32" \
+    && mkdir -p /root/.platformio/packages/tool-ninja \
+    && ln -s /usr/bin/ninja /root/.platformio/packages/tool-ninja/ninja \
     && rm -rf /root/.cache
 
 # ESP-IDF creates a separate environment under /config at first firmware
