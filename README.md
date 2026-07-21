@@ -11,11 +11,11 @@ official ESPHome release and applies the ARMv7 Dockerfile in this repository.
 
 Defaults:
 
-- `ESPHOME_VERSION=2026.7.0`
+- `ESPHOME_VERSION=2026.7.1`
 - `IMAGE_NAME=esphome-armv7`
 - upstream source: `https://github.com/esphome/esphome.git`
 
-The result is `esphome-armv7:2026.7.0`.
+The result is `esphome-armv7:2026.7.1`.
 
 ## Run
 
@@ -23,7 +23,7 @@ The result is `esphome-armv7:2026.7.0`.
 docker run -d --name esphome --restart always --network host \
   -v /var/lib/docker/volumes/esphome/_data:/config \
   -v /etc/localtime:/etc/localtime:ro \
-  ghcr.io/imkebe/esphome-armv7:2026.7.0
+  ghcr.io/imkebe/esphome-armv7:2026.7.1
 ```
 
 The container serves the dashboard on port 6052 and persists its state in

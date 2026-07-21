@@ -2,7 +2,7 @@
 set -eu
 
 IMAGE_NAME="${IMAGE_NAME:-esphome-armv7}"
-ESPHOME_VERSION="${ESPHOME_VERSION:-2026.7.0}"
+ESPHOME_VERSION="${ESPHOME_VERSION:-2026.7.1}"
 UPSTREAM_REPOSITORY="${UPSTREAM_REPOSITORY:-https://github.com/esphome/esphome.git}"
 BUILD_DIR="${BUILD_DIR:-.build/esphome-${ESPHOME_VERSION}}"
 
