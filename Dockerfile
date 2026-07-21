@@ -67,12 +67,15 @@ RUN mkdir -p /root/.platformio \
         "pyelftools>=0.32" \
     && rm -rf /root/.cache
 
+# ESP-IDF creates a separate environment under /config at first firmware
+# compile. Its esptool dependency may build cffi from source on ARMv7, so
+# ffi.h must remain available in the final runtime image.
 COPY . /esphome
 RUN pip install --no-cache-dir /esphome \
     && platformio settings set enable_telemetry No \
     && platformio settings set check_platformio_interval 1000000 \
     && mkdir -p /piolibs \
-    && apt-get purge -y --auto-remove build-essential libjpeg62-turbo-dev zlib1g-dev libfreetype-dev liblcms2-dev libwebp-dev libharfbuzz-dev libfribidi-dev libxcb1-dev libffi-dev libssl-dev \
+    && apt-get purge -y --auto-remove build-essential libjpeg62-turbo-dev zlib1g-dev libfreetype-dev liblcms2-dev libwebp-dev libharfbuzz-dev libfribidi-dev libxcb1-dev libssl-dev \
     && rm -rf /var/lib/apt/lists/* /root/.cache
 
 LABEL org.opencontainers.image.title="ESPHome ARMv7" \
