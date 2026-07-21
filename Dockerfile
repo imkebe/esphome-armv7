@@ -3,6 +3,8 @@ FROM python:${PYTHON_VERSION}-slim-bookworm
 
 ARG BUILD_VERSION
 
+# PioArduino's bundled CMake is linked to OpenSSL 1.1, while Bookworm supplies
+# OpenSSL 3. Keep the compatibility runtime package pinned here.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         build-essential \
@@ -30,6 +32,10 @@ RUN apt-get update \
         libxcb1-dev \
         libffi-dev \
         libssl-dev \
+    && curl -fsSL -o /tmp/libssl1.1.deb \
+        https://security.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.1_1.1.1w-0+deb11u8_armhf.deb \
+    && apt-get install -y --no-install-recommends /tmp/libssl1.1.deb \
+    && rm -f /tmp/libssl1.1.deb \
     && rm -rf /var/lib/apt/lists/*
 
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
