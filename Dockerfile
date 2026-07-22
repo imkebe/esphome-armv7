@@ -45,8 +45,6 @@ RUN apt-get update \
 # binary-only tree-sitter-c requirement.
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PIP_EXTRA_INDEX_URL=https://dl.espressif.com/pypi \
-    ESPHOME_ESP_IDF_PREFIX=/config/.esphome/idf \
-    ESPHOME_SDK_NRF_PREFIX=/config/.esphome/sdk-nrf \
     PLATFORMIO_SETTING_ENABLE_TELEMETRY=No \
     PLATFORMIO_SETTING_CHECK_PLATFORMIO_INTERVAL=1000000
 
@@ -94,6 +92,12 @@ RUN pip install --no-cache-dir /esphome \
     && mkdir -p /piolibs \
     && apt-get purge -y --auto-remove build-essential libjpeg62-turbo-dev zlib1g-dev libfreetype-dev liblcms2-dev libwebp-dev libharfbuzz-dev libfribidi-dev libxcb1-dev libssl-dev \
     && rm -rf /var/lib/apt/lists/* /root/.cache
+
+# Set the prefixes in the image environment (not only in the entrypoint) so
+# dashboard, direct CLI, and docker-exec invocations use the same persistent
+# ESP-IDF installation.
+ENV ESPHOME_ESP_IDF_PREFIX=/config/.esphome/idf \
+    ESPHOME_SDK_NRF_PREFIX=/config/.esphome/sdk-nrf
 
 LABEL org.opencontainers.image.title="ESPHome ARMv7" \
       org.opencontainers.image.source="https://github.com/imkebe/esphome-armv7" \
