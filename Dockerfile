@@ -45,6 +45,8 @@ RUN apt-get update \
 # binary-only tree-sitter-c requirement.
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PIP_EXTRA_INDEX_URL=https://dl.espressif.com/pypi \
+    ESPHOME_ESP_IDF_PREFIX=/config/.esphome/idf \
+    ESPHOME_SDK_NRF_PREFIX=/config/.esphome/sdk-nrf \
     PLATFORMIO_SETTING_ENABLE_TELEMETRY=No \
     PLATFORMIO_SETTING_CHECK_PLATFORMIO_INTERVAL=1000000
 
@@ -101,7 +103,8 @@ EXPOSE 6052
 HEALTHCHECK --interval=30s --timeout=30s \
     CMD curl --fail http://localhost:6052/version -A "HealthCheck" || exit 1
 
-COPY docker/docker_entrypoint.sh /entrypoint.sh
+COPY docker/docker_entrypoint.sh /entrypoint.upstream.sh
+COPY docker/armv7_entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 VOLUME /config

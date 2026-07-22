@@ -12,6 +12,7 @@ mkdir -p "$(dirname "${BUILD_DIR}")"
 git clone --depth 1 --branch "${ESPHOME_VERSION}" \
   "${UPSTREAM_REPOSITORY}" "${BUILD_DIR}"
 cp Dockerfile "${BUILD_DIR}/docker/Dockerfile.armv7"
+cp docker/armv7_entrypoint.sh "${BUILD_DIR}/docker/armv7_entrypoint.sh"
 
 docker build \
   --tag "${IMAGE_NAME}:${ESPHOME_VERSION}" \
