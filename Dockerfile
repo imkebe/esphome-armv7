@@ -51,7 +51,7 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r /tmp/requirements.txt \
-    && pip install --no-cache-dir esphome-device-builder==1.1.0
+    && pip install --no-cache-dir esphome-device-builder==1.9.2
 
 # PioArduino creates this isolated environment for ESP-IDF tooling. Install its
 # complete dependency set while the ARMv7 build headers are still present.
